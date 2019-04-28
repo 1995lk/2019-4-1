@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+        /*
+        子项重复项：
+            \+数字
+            比如：
+                /(d1)c1(b1)\1\2/
+                当前有2个子项，一个是d1另一个是b1
+                \1就代表一个子项，\2就代表第二个子项
+        */
+        // let str = 'd1c1b1d1c1b1b1b1b1'
+        // console.log(/(d1)(c1)(b1)\1\2\3/.test(str));
+
+
+        // let str = 'd1c1b1d1b1b1b1b1'
+        // console.log(/(d1)c1(b1)\1\2+/.exec(str));
+        /*
+        那个最多，他是几？
+        {
+            '4':2,
+            '3':1
+        }
+        */
+        //  哪个数最多
+        let str = '4567867899899987666544356';
+        let obj = {};
+        for(let i =0;i<str.length;i++){
+            if(!obj[str[i]]){
+                obj[str[i]] = 1
+            }else{
+                obj[str[i]] ++;
+            }
+        }
+
+        //选出数组重复最多的
+        console.log(obj)
+        let min = -Infinity;
+        let i = 0;
+        for(let attr in obj){
+            if(obj[attr]>min){
+                min=obj[attr]
+                i = attr
+            }
+        }
+        console.log(i)
+
+
+        //选出数组重复少的
+        let max = Infinity;
+        let j = 0;
+        for(let hh in obj){
+            if(obj[hh]<max){
+                max=obj[hh]
+                j = hh
+            }
+        }
+        console.log(j);
+    </script>
+    
+</body>
+</html>

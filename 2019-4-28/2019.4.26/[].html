@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+        /*
+        [].push()
+            这个方法是什么  (Array方法)
+            有什么用，（是用来数组最后一位添加一个或者多个数据）
+            参数传的是什么（至少是一个数据，也可以是多个数据）
+            返回值是什么(新数组的长度)
+
+        []
+            在括号中选择任意一个字符
+            比如：
+                [12345]可以为1也可以为2也可以为3...
+            也可以简写为[1-5],因为 - 是1到5的意思
+            为什么能简写呢？
+                因为顺序是按照unicode编码来的
+        数字是:       [0-9]
+        小写英文:     [a-z]
+        大写英文:     [A-Z]
+        中文区间范围  [\u4e00-\u9fa5]
+
+        从大A到小z:  [A-z] 不行的;  [A-Za-z]
+        
+        */
+
+        // let str = 'a1ca2ca3ca4c';
+        // // console.log(str.match(/a(1|2|3|4)c/g))
+        // console.log(str.match(/a[1-4]c/g))
+
+
+        // let str = 'A1zA2bA3^A4Z';
+        // // console.log(str.match(/A\d[A-z]/g));
+        // console.log(str.match(/A\d[A-Za-z]/g));
+       
+        
+        /*
+        18  19  20  21  
+        18-19 -> 1[89]
+        20-99 -> [2-9][0-9]
+        100-108 10[0-8]
+
+
+        开头 ^     
+        结尾 $
+        let str = '180'
+        str.match(/^1[89]$/)
+        */
+    //      let str = '19'
+    //    console.log((/^1[89]$/).exec(str)); // 18-19
+        
+
+
+
+        // 25-44
+        // 2[5-9]4[4-9]
+
+
+        // 16-26
+
+        // 1[6-9]|2[0-6]
+        // let str = '40';
+        // console.log(str.match(/2[5-9]|4[0-4]/))
+
+        // 26-208
+
+        // 26-91
+        //100-199
+
+        // let str = '92'
+        // console.log(str.match(/2[6-9]|9[0-1]/))
+
+
+        // let str ='109'
+        // console.log(str.match(/2[6-9]|9[0-9]|10[0-8]/))
+
+        
+        /*
+        18-19-->  1[89]
+        20-99-->  [2-9][0-9]
+ 
+        26-67
+        console.log(/[2-3][6-9]|[3-6][0-7]/.exec(str));
+
+        21-88
+        console.log(/2[1-9]|[3-7][0-9]|8[0-8]/.exec(str));
+
+        20-69
+        console.log(/[2-6][1-9]/.exec(str));
+        */
+
+
+
+
+
+        /*
+        
+        分布思考:
+        15-77
+
+        1[59]15到19; [2-6][0-9] 20到69 ;  7[0-7]  70到77;
+
+        console.log(/^(1[59]|[2-6][0-9]|7[0-7])$/.exec(str));
+        
+        */
+
+
+
+
+
+    //    18-108
+    //console.log(/^(1[89]|[2-9][0-9]|10[0-8])$/.exec(str));
+        // 18---19
+        // // 100---108
+        // let str ='77'
+        // console.log(/1[59]|[2-6][0-9]|7[0-7]/.exec(str));
+        
+
+        let str = 'hello!吕阔,你好?';//16
+        let num = 0 ;
+        for(let i = 0;i<str.length;i++){
+            if(/[\u4e00-\u9fa5]/.test(str[i])){
+                num+=2
+            }else{
+                num++;
+            }
+        }
+        console.log(num)
+
+    </script>
+</body>
+</html>

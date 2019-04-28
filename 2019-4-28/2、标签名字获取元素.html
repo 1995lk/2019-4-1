@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+<input type="button" value="改变" id="btn">
+<div id="dv">
+    <p>哈哈,我又变帅了</p>
+   
+</div>
+<script>
+    // 根据id获取按钮,注册点击事件,添加事件处理函数
+    // document.getElementById("btn").onclick = function () {
+    //     //根据标签名字获取标签
+    //     var pObjs = document.getElementsByTagName("p");
+    //     //var pObjs=document.getElementById("dv1").getElementsByTagName("p");
+    //     //循环遍历这个数组
+    //     for (var i = 0; i < pObjs.length; i++) {
+    //         //每个p标签,设置文字
+    //         pObjs[i].innerText = "我们都是p";
+    //     }
+    // };
+    var btns=document.getElementById('btn')
+    var p1 =document.getElementsByTagName('p')
+    btns.onclick=function(){
+            p1.style.backgroundsize = 'red';
+    }
+</script>
+</body>
+</html>

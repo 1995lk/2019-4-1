@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+    <input type="button" value="修改文本框的值" id="btn"/><br/>
+    <input type="text" value="" class="text"/><br/>
+    <input type="text" value="" class="text"/><br/>
+    <input type="text" value="" class="text"/>
+<script>
+    //根据选择器的方式获取元素
+    var inputs = document.querySelectorAll(".text");
+    var btns=document.getElementById('btn')
+    btns.onclick = function () {
+        for (var i = 0; i < inputs.length; i++) {
+            inputs[i].value = "码仙";
+        }
+    };
+</script>
+</body>
+</html>

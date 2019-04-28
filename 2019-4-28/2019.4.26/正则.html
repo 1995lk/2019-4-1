@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+        /*
+        /\+/g
+        正则 (对象):
+            火星文，难点在于找规律，自身写完之后自己都有可能看不懂
+
+            专门用来检索（检查、搜索）模糊范围字符串的一种规则。
+
+            简写://
+            实例化：new RegExp('字符串','修饰符')
+
+            \ 为转义符
+                **需要注意是在写/(正则)记得转义
+            当\+字母的时候会有特殊含义,这种有特殊含义的,我们叫元字符
+
+            \n  换行
+            \d  一个数字
+            \D  一个非数字
+            exec:
+                /规则/.exec(字符串)
+                找到正则中第一个匹配的字符且放到数组中。
+                    [字符、index、input、groups]
+
+            test:
+                /规则/。test(字符串)
+                检测正则中是否匹配字符串，成立就返回true,否则false/。
+        */
+        // exec:
+        let str = 'wc3c58dcv6ds5s6x'
+        // 找到正则中第一个匹配的字符且放到数组中。
+        console.log(/\d+/g.exec(str))
+
+        // test:
+        let str = 'wc3c58dcv6ds5s6x'
+        //正则中是否匹配字符串,成立就返回true，否则就是fals。
+        console.log(/\d+/g.test(str))
+
+    </script>
+</body>
+</html>

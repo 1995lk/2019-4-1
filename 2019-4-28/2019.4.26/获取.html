@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+    <ul id="ul">
+        <li class="li">1</li>
+        <li>2</li>
+        <li>3</li>
+        <li class="  li      li2 li3">4</li>
+    </ul>
+    <script>
+        /*
+        getElementById
+        getElementsByTagName
+
+        1.先拿到所有的元素
+        2.从这些元素中找到和传参的class一致的元素
+        3.把匹配的元素存到一个数组中
+        4.把筛选和的元素返回给外面使用
+        
+        
+        */
+        function getByClass(sClass){
+            var aEle = document.getElementsByTagName('*');
+            var arr = [];
+            for(var i = 0;i<aEle.length;i++){
+                let re=new RegExp('\\b'+ sClass +'\\b')
+                if(re.test(aEle[i].className))
+                arr.push(aEle[i]);
+                
+            }
+            return arr;
+            console.log(arr)
+        }
+        let lis = getByClass('li');
+        console.log(lis);
+        for(let i=0;i<lis.length;i++){
+        lis[i].style.background = 'red';
+    }
+    </script>
+</body>
+</html>
