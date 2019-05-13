@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+    <textarea id="txt"></textarea><span id="size">0字</span>
+<body>
+    <script>
+    /*
+    oninput:
+        改变输入框内容就触发
+    */
+    //点击
+    txt.oninput = function(){
+        size.innerHTML = this.value.length+'字';
+    }
+
+
+
+
+    // //点击键盘事件抬起
+    //     txt.onkeyup = function(){
+    //         //查询value内容
+    //         console.log(this.value);
+    //         //获取到输入框内的文字的长度，样式赋值给span标签
+    //         size.innerHTML = this.value.length+'字';
+    //     }
+    //     //设置一个定时器
+    //     let timer = null;
+    //     //开一个定时器为了让删除value框内的文字与后面的字的的个数一一对应
+    //     //键盘事件按下的时候
+    //     txt.onkeydown = function(){
+    //         clearInterval(timer);
+    //         timer = setInterval(()=>{
+    //             size.innerHTML = txt.value.length + '字';
+    //             console.log(1);
+    //         },16.7)
+    //     }
+    //     txt.onkeyup = function(){
+    //         clearInterval(timer);
+    //     }
+    </script>
+</body>
+</html>
