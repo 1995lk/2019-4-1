@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+<style>
+#box{
+    width:100px;
+    height: 100px;
+    background: gray;
+    position: absolute;
+    left:0;
+    top:0;
+}
+#box1{
+    width:100px;
+    height: 100px;
+    background: lightcoral;
+    position: absolute;
+    left:300px;
+    top:300px;
+}
+#select{
+    width:0;
+    height:0;
+    position: absolute;
+    left:0;
+    top:0;
+    background:rgba(0,255,255,.3);
+    /* rgba(#00FFFF ); */
+    border:1px dashed blue;
+}
+
+</style>
+</head>
+<body id="body">
+    <div id="box1"></div>
+<script src="./tools_2.0.js"></script>
+<script>
+    //当在浏览器页面点击的时候
+    document.onmousedown = function(ev){
+        //设置盒子的颜色
+        box1.style.background = 'lightcoral';
+        //创建一个div元素
+        let box = document.createElement('div');
+        //盒子的id名为select
+        box.id = 'select';
+        //横坐标变量
+        let l = ev.pageX;
+        //纵坐标变量
+        let t = ev.pageY;
+        //盒子的样式横纵坐标值
+        box.style.cssTest = 'left:'+l+'px;top:'+t+'px';
+        // console.log(box.style.cssTest)
+        body.append(box);
+        //鼠标移动事件
+        document.onmousemove = function(ev){
+            //盒子的左边距离 取最小的横坐标的值
+            box.style.left = Math.min(l,ev.pageX)+'px';
+            //盒子上边距离  取最小的纵坐标的值
+            box.style.top = Math.min(t,ev.pageY)+'px';
+
+            //点击移动时出来的 盒子的宽度 = 绝对值取  移动的横坐标的值减去按下去时候的值 
+            box.style.width = Math.abs(ev.pageX - l) + 'px';
+            //点击移动时出来的 盒子的高度 = 绝对值取  移动的纵坐标的值减去按下去时候的值 
+            box.style.height = Math.abs(ev.pageY - t)+ 'px';
+
+            //如果碰撞条件成立就变黄色，否则就还是原来的颜色
+            if(tools.duang(box,box1)){
+                box1.style.background='yellow';
+            }else{
+                box1.style.background='lightcoral'
+            }
+        }
+        //当鼠标抬起的时候清除
+        document.onmouseup = function(){
+            box.remove();
+            document.onmousemove = document.onmouseup = null;
+        }
+        return false;
+    }
+</script>
+</body>
+</html>
