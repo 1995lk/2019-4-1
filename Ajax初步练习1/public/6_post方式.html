@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+</head>
+<body>
+        用户名:<input type="text" id="user"/><span id="span"></span>
+        密 码:<input type="password" />
+        <button id="btn">提交</button>
+<script>
+    
+    user.onblur = function(){
+        var xhr = new XMLHttpRequest;  //创建一个对象
+        xhr.open('post','/post');      // 输入请求url路径（地址）默认为true   // 发送  //
+
+        xhr.setRequestHeader('Content-Type','application/x-www-form-urlencoded');  //请求头
+        //把传给后端的数据放在send中
+        xhr.send('user='+this.value);
+
+        xhr.onload = function(){
+            var data = JSON.parse(xhr.responseText);
+            span.innerHTML = data.msg;
+        }
+    }
+    // user.onblur = function(){
+    //     var xhr = new XMLHttpRequest;
+    //     xhr.open('post','/post');
+    //     xhr.setRequestHeader('Content-type','application/x-www-form-urlencoded');
+    //     xhr.send('user='+this.value);
+
+    //     xhr.onload = function(){
+    //         var data = JSON.parse(xhr.responseText);
+    //         span.innerHTML = data.msg;
+    //     }
+    // }
+</script>
+</body>
+</html>
