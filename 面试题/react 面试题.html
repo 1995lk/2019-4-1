@@ -1,0 +1,251 @@
+<!DOCTYPE html><html><head><title>react 面试题</title><meta charset='utf-8'><link href='https://cdn.maxiang.io/res-min/themes/marxico.css' rel='stylesheet'><style>
+.note-content  {font-family: 'Helvetica Neue', Arial, 'Hiragino Sans GB', STHeiti, 'Microsoft YaHei', 'WenQuanYi Micro Hei', SimSun, Song, sans-serif;}
+
+</style></head><body><div id='preview-contents' class='note-content'>
+                        
+                    
+
+
+
+<h1 id="react-面试题">react 面试题</h1>
+
+<ol start="1"><li rel="1"><p>React路由简单配置 <br>
+//入口文件index.js <br>
+import React from ‘react’; <br>
+import ReactDom from ‘react-dom’; <br>
+import { Router, Route, BrowserRouter,Switch } from ‘react-router-dom’; <br>
+import createBrowserHistory from “history/createBrowserHistory”; <br>
+import routeTest from ‘./pages/routeTest’; <br>
+import Home from ‘./Home’; <br>
+const history = createBrowserHistory(); <br>
+ReactDom.render( <br>
+ <br>
+     <br>
+         <br>
+         <br>
+     <br>
+, <br>
+document.getElementById(‘app’) <br>
+);</p></li>
+</ol>
+
+<p>Router的history是必需的props</p>
+
+<p>Router中只能有一个子元素 <br>
+Switch：只渲染第一个与当前地址匹配的</p>
+
+<p>Route的props path为路径，component为路径对应的页面，exact精确匹配 <br>
+这是一个简单的路由配置，可以实现页面的简单跳转，但是如果页面比较多，可以把页面组件引入和Route组件提取出来，以保证入口页面良好的可阅读性。</p>
+
+<p>多页面路由配置 <br>
+//将页面引入和Route组件提取到./App.js <br>
+import React from ‘react’; <br>
+import { Router, Route, Switch } from ‘react-router-dom’; <br>
+import PropTypes from ‘prop-types’; <br>
+import routeTest from ‘./pages/routeTest’; <br>
+import Home from ‘./Home’;</p>
+
+<p>const App = ({ history }) =&gt; ( <br>
+     <br>
+          <br>
+             <br>
+             <br>
+         <br>
+     <br>
+); <br>
+App.propTypes = { <br>
+    history: PropTypes.shape({}).isRequired <br>
+}; <br>
+export default App;</p>
+
+<p>// ./index.js <br>
+import React from ‘react’; <br>
+import ReactDom from ‘react-dom’; <br>
+import { Router, Route, BrowserRouter,Switch } from ‘react-router-dom’; <br>
+import createBrowserHistory from “history/createBrowserHistory”; <br>
+import App from ‘./App’;</p>
+
+<p>const history = createBrowserHistory(); <br>
+ReactDom.render( <br>
+    , <br>
+    document.getElementById(‘app’), <br>
+);</p>
+
+<p>这样一来，当项目比较大，页面很多的时候，页面引入和Route定义的部分都被拆分到./App.js中，./index.js只需引入./App.js即可。</p>
+
+<p>使用react-redux的路由配置 <br>
+使用react-redux时，需要store进行状态管理，使用Provider组件注入store。</p>
+
+<p>./store,js创建storeTree。</p>
+
+<p>./store.js <br>
+import { createStore, combineReducers, applyMiddleware } from ‘redux’; <br>
+import thunk from ‘redux-thunk’; <br>
+import routeTestReducer from ‘pages/routeTest/indexRedux’;</p>
+
+<p>const storeTree = combineReducers({ <br>
+    routeTestReducer <br>
+}); <br>
+const store = createStore(storeTree, applyMiddleware(thunk)); <br>
+export default store;</p>
+
+<p>./index.js使用Provider组件传递store。</p>
+
+<p>./index.js <br>
+import React from ‘react’; <br>
+import ReactDom from ‘react-dom’; <br>
+import { Router, Route, BrowserRouter,Switch } from ‘react-router-dom’; <br>
+import createBrowserHistory from “history/createBrowserHistory”; <br>
+import { Provider } from ‘react-redux’; <br>
+import store from ‘./store’; <br>
+import App from ‘./App’;</p>
+
+<p>const history = createBrowserHistory(); <br>
+ReactDom.render( <br>
+     <br>
+         <br>
+    , <br>
+    document.getElementById(‘app’), <br>
+);</p>
+
+<ol start="2"><li rel="2"><p>路由传参有几种方式 及路由怎样接收参数 <br>
+方式 一：         通过params <br>
+1.路由表中 <br>
+ <br>
+ 2.Link处                    HTML方式                 &lt;Link to={ ' /sort/ ' + ' 2 ' }  activeClassName='active'&gt;XXXX                    JS方式                this.props.history.push(  ‘/sort/’+’2’  ) <br>
+   3.sort页面       通过  this.props.metch.params.id就可以接受到传递过来的参数（id） <br>
+方式 二：         通过query                前提：必须由其他页面跳过来，参数才会被传递过来　　　     注：不需要配置路由表。路由表中的内容照常：        1.Link处               HTML方式            &lt;Link to={{ path : ' /sort ' , query : { name : 'sunny' }}}&gt;       JS方式            this.props.history.push({ path : ‘/sort’ ,query : { name: ’ sunny’} })        2.sort页面                   this.props.location.query.name 方式 三：        通过state            同query差不多，只是属性不一样，而且state传的参数是加密的，query传的参数是公开的，在地址栏        1.Link 处                HTML方式：                &lt;Link to={{ path : ' /sort ' , state : { name : 'sunny' }}}&gt;          JS方式：            this.props.history.push({ pathname:’/sort’,state:{name : ‘sunny’ } })        2.sort页面                   this.props.location.state.name</p></li>
+<li rel="3"><p>React生命周期 <br>
+componentDidMount() 数据渲染之后  componentWillMount()数据渲染之前 <br>
+componentDidUpdate()数据更新之后 如果shouldComponentUpdata()返回false ,则不会被调用 <br>
+componentWillUpmount() 卸载和销毁组件之前被调用 <br>
+componentdidCatch  在渲染期间，生命周期方法或者任何子组件的构造函数中发生错误时，将调用这些方法</p></li>
+<li rel="4"><p>进入页面请求数据在哪个阶段，为什么要放在这个阶段 <br>
+对于同步的状态改变，是可以放在componentWillMount，对于异步的，最好好放在componentDidMount。但如果此时有若干细节需要处理，比如你的组件需要渲染子组件，而且子组件取决于父组件的某个属性，那么在子组件的componentDidMount中进行处理会有问题：因为此时父组件中对应的属性可能还没有完整获取，因此就让其在子组件的componentDidUpdate中处理。</p></li>
+</ol>
+
+<p>至于为什么，先看看react的生命周期：</p>
+
+<p>constructor() 》componentWillMount() 》render() 》componentDidMount()</p>
+
+<p>上面这些方法的调用是有次序的，由上而下，也就是当说如果你要获取外部数据并加载到组件上，只能在组件”已经”挂载到真实的网页上才能作这事情，其它情况你是加载不到组件的。 <br>
+componentDidMount方法中的代码，是在组件已经完全挂载到网页上才会调用被执行，所以可以保证数据的加载。此外，在这方法中调用setState方法，会触发重渲染。所以，官方设计这个方法就是用来加载外部数据用的，或处理其他的副作用代码。 <br>
+constructor被调用是在组件准备要挂载的最一开始，所以此时组件尚未挂载到网页上。 <br>
+componentWillMount方法的调用在constructor之后，在render之前，在这方法里的代码调用setState方法不会触发重渲染，所以它一般不会用来作加载数据之用，它也很少被使用到。 <br>
+一般的从后台(服务器)获取的数据，都会与组件上要用的数据加载有关，所以都在componentDidMount方法里面作。虽然与组件上的数据无关的加载，也可以在constructor里作，但constructor是作组件state初绐化工作，并不是设计来作加载数据这工作的，所以所有有副作用的代码都会集中在componentDidMount方法里。 <br>
+constructor()中获取数据的话，如果时间太长，或者出错，组件就渲染不出来，你整个页面都没法渲染了。 <br>
+componentDidMount()中能保证你的组件已经正确渲染。 <br>
+总结下： <br>
+1.跟服务器端渲染（同构）有关系，如果在componentWillMount里面获取数据，fetch data会执行两次，一次在服务器端一次在客户端。在componentDidMount中可以解决这个问题。 <br>
+2.在componentWillMount中fetch data，数据一定在render后才能到达，如果你忘记了设置初始状态，用户体验不好。 <br>
+3.react16.0以后，componentWillMount可能会被执行多次。</p>
+
+<ol start="5"><li rel="5"><p>组件更新是在哪个阶段 <br>
+关于更新阶段的组件生命周期： <br>
+shouldComponentUpdate(nextProps, nextState)：你可以通过这个方法控制组件是否重新渲染。如果返回 false 组件就不会重新渲染。这个生命周期在 React性能优化上非常有用。 <br>
+componentWillReceiveProps(nextProps)：组件从父组件接收到新的 props 之前调用。 <br>
+componentWillUpdate()：组件开始重新渲染之前调用。 <br>
+componentDidUpdate()：组件重新渲染并且把更改变更到真实的 DOM 以后调用。</p></li>
+<li rel="6"><p>更新阶段怎样做优化，描述一下代码 <br>
+bind()使用的优化，this.xxx.bind(this)可以优化成this.xxx <br>
+render()函数的优化 会发现我们本来不想要最外层的那个div，但是又不得不这样做，于是react提供了一个类Fragment，只需要在导入React的时候加上，然后替换最外层的div就可以了</p></li>
+<li rel="7"><p>什么是受控组件，怎样去改变，什么时机去改变 <br>
+什么是受控组件？ <br>
+其值由React控制的输入表单元素称为“受控组件”。 <br>
+受控组件有两个特点：1. 设置value值，value由state控制，2. value值一般在onChange事件中通过setState进行修改 <br>
+什么时候使用受控组件？ <br>
+需要对组件的value值进行修改时，使用受控组件。比如：页面中有一个按钮，每点击一次按钮受控组件的值加1. <br>
+怎样去改变？ onchange  defaultvalue <br>
+发生受控的抱错时</p></li>
+<li rel="8"><p>高阶组件是什么 <br>
+如果一个函数操作其他函数，即将其他函数作为参数或将函数作为返回值，将其称为高阶函数。高阶组件（high-order component）类似于高阶函数，接收React组件作为输入，输出一个新的React组件。高阶组件让代码更具有复用性，逻辑性与抽象特征。可以对渲染方法作劫持，也可以控制道具与状态。 <br>
+实现高阶组件的方法有如下两种。 <br>
+属性代理（props proxy）。属性组件通过被包裹的React组件来操作道具。 <br>
+在渲染方法中返回传入WrappedComponent的React组件。这样就可以通过高阶组件来传递props，这种方法即为属性代理。 <br>
+反向代理（inheritance inversion）。高阶组件继承于被包裹的React组件。 <br>
+反向继承是另一种构建高阶组件的方法。 <br>
+高阶组件返回的组件继承于WrappedComponent。因为被动地继承WrappedComponent，所有的调用都会反向。 <br>
+通过继承WrappedComponent来实现，方法可以通过super来顺序调用。因为依赖于继承的机制，HOC的调用顺序和队列是一样的： <br>
+didmount  - &gt; HOC didmount  - &gt;（HOCs didmount） - &gt;将卸载 - &gt; HOC将卸载 - &gt;（HOCs将卸载） <br>
+在反向继承方法中，高阶组件可以使用WrappedComponent引用，这意味着它可以使用WrappedComponent的状态，道具，生命周期和渲染方法，但他不能保证完整的子组件树被解析</p></li>
+<li rel="9"><p>State和props有什么区别 <br>
+React的数据是自顶向下单向流动的，即从父组件到子组件中，组件的数据存储在props和state中，props是一个从外部传进组件的参数，主要作为就是从父组件向子组件传递数据，它具有可读性和不变性，只能通过外部组件主动传入新的props来重新渲染子组件，否则子组件的props以及展现形式不会改变。state的主要作用是用于组件保存、控制以及修改自己的状态，它只能在constructor中初始化，它算是组件的私有属性，不可通过外部访问和修改，只能通过组件内部的this.setState来修改，修改state属性会导致组件的重新渲染。 <br>
+state是组件自己管理数据，控制自己的状态，可变； <br>
+props是外部传入的数据参数，不可变； <br>
+没有state的叫做无状态组件，有state的叫做有状态组件； <br>
+多用props，少用state。也就是多写无状态组件。</p></li>
+<li rel="10"><p>用react创建一个dom元素，怎么创建</p></li>
+</ol>
+
+
+
+<pre class="prettyprint hljs-dark"><code class="hljs javascript"><div class="hljs-line">/ 这个index.js是webpack开始打包构建的入口文件
+</div><div class="hljs-line"><span class="hljs-comment">// 需要下载 react, react-dom这两个包</span>
+</div><div class="hljs-line"><wbr>
+</div><div class="hljs-line"><span class="hljs-comment">// 使用react这个包，用来创建组件和虚拟DOM元素</span>
+</div><div class="hljs-line"><span class="hljs-keyword">import</span> React <span class="hljs-keyword">from</span> <span class="hljs-string">'react'</span>
+</div><div class="hljs-line"><span class="hljs-comment">// react-dom这个包，主要用来实现DOM操作，必须把组件或虚拟DOM元素，渲染到页面指定的容器中</span>
+</div><div class="hljs-line"><span class="hljs-keyword">import</span> ReactDOM <span class="hljs-keyword">from</span> <span class="hljs-string">'react-dom'</span>
+</div><div class="hljs-line"><wbr>
+</div><div class="hljs-line"><span class="hljs-comment">//1. 创建虚拟DOM元素</span>
+</div><div class="hljs-line"><span class="hljs-comment">// React.createELement() 接受三个参数</span>
+</div><div class="hljs-line"><span class="hljs-comment">// 参数1： string 表示要创建的元素类型</span>
+</div><div class="hljs-line"><span class="hljs-comment">// 参数2: obj/null 要表示元素的属性节点</span>
+</div><div class="hljs-line"><span class="hljs-comment">// 参数3： 类型不限 表示当前元素的子节点</span>
+</div><div class="hljs-line"><span class="hljs-keyword">const</span> h1Obj = React.createElement(<span class="hljs-string">'div'</span>, {<span class="hljs-attr">title</span>: <span class="hljs-string">'aaa'</span>}, <span class="hljs-string">'这是一个div'</span>);
+</div><div class="hljs-line"><wbr>
+</div><div class="hljs-line"><span class="hljs-comment">//2. 把创建的虚拟DOM元素，渲染到页面上</span>
+</div><div class="hljs-line"><span class="hljs-comment">//参数1 ： 要渲染的那个组件或者虚拟dom元素</span>
+</div><div class="hljs-line"><span class="hljs-comment">//参数2： 接收一个DOM对象，用来指定吧第一个参数中的元素或组件渲染到页面的那个区域中</span>
+</div><div class="hljs-line">ReactDOM.render(h1Obj, <span class="hljs-built_in">document</span>.getElementById(<span class="hljs-string">'app'</span>));
+</div></code></pre>
+
+<ol start="11"><li rel="11"><p>Jsx怎样去解析 react <br>
+JSX 是 JavaScript 语言的一种语法扩展，长得像 HTML，但并不是 HTML。 React.js 可以用 <br>
+JSX来描述你的组件长什么样的。 JSX 在编译的时候会变成相应的 JavaScript 对象描述。 <br>
+react-dom负责把这个用来描述UI 信息的 JavaScript 对象变成 DOM 元素，并且渲染到页面上。</p></li>
+<li rel="12"><p>Redux包含哪几个部分，之间是怎样的关系 <br>
+Redux 三大核心 <br>
+Redux的核心由三部分组成：Store, Action, Reducer。</p></li>
+</ol>
+
+<p>Store : 是个对象，贯穿你整个应用的数据都应该存储在这里。 <br>
+Action： 是个对象，必须包含type这个属性，reducer将根据这个属性值来对store进行相应的处理。除此之外的属性，就是进行这个操作需要的数据。 <br>
+Reducer: 是个函数。接受两个参数：要修改的数据(state) 和 action对象。根据action.type来决定采用的操作，对state进行修改，最后返回新的state。 <br>
+在上一部分，我们提到了，我们触发action → reducer来处理。这就是二者之间的关系。那么我们怎么触发action呢?Store这个对象提供了dispatch方法 → 触发action。dispatch方法接受action对象作为参数。因此，我们可以了解三者之间的关系： <br>
+store -&gt;dispatch-&gt;action-&gt;reducer <br>
+Store有三个方法：</p>
+
+<p>getState：用来获取store里面存储的数据。 <br>
+dispatch: store里的数据不能直接修改，只能通过触发action来进行修改，这个方法就是用来触发action。 <br>
+可以看到这个reducer对store的visibilityFilter和todos的两部分数据进行了处理。随着应用的复杂，如果我们把对所有数据的处理，都写在一个reducer中，那么它会变得很冗杂。如果我们将对每一部分的数据的处理，写在一个单独的reducer中，它接受该部分的数据作为state。那么整个reducer会变得整洁和清晰。</p>
+
+<p>因此，redux为我们提供了combineReducer这个API，帮助我们分开书写reducer， 并且最终把这些reducer给集合到一个根reducer中。 <br>
+总结 <br>
+Redux: store, action, reducer</p>
+
+<p>store: getState, dispatch, subscribe <br>
+combineReducers <br>
+createStore <br>
+store ➡️ dispatch ➡️ action ⬅️ reducer <br>
+react-redux:</p>
+
+<p>connect: 将store作为props注入 <br>
+Provider: 使store在子孙组件的connect中能够获取到。</p>
+
+<ol start="13"><li rel="13"><p>怎样触发action  通过dispatch()将想要触发的方法包裹起来，dispatch检测到方法就会执行它 </p></li>
+<li rel="14"><p>Axios有对他进行什么封装吗 <br>
+19、         Promise <br>
+20、         封装过什么组件 <br>
+21、         Mock数据怎样做的  <br>
+22、         跨域怎样实现 <br>
+23、         部署到线上，怎样跨域 <br>
+24、         用过Refs吗 <br>
+25、         用过预编译处理器吗 <br>
+26、         Webpack有哪些配置 <br>
+27、         做过什么优化 <br>
+28、         React在使用上有啥优化 <br>
+29、         什么是按需加载 <br>
+30、         涉及到什么UI库 <br>
+31、         一级导航二级导航跳转怎样实行高亮</p></li>
+</ol></div></body></html>
